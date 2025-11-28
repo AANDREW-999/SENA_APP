@@ -1,0 +1,45 @@
+/* Estilos SENA institucional */
+:root {
+  --sena-green: #008C45;
+  --sena-dark: #222222;
+  --sena-light: #f5f6f8;
+  --sena-accent: #ff6f00;
+}
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--sena-light);
+}
+
+.sena-header { background: linear-gradient(90deg, var(--sena-green), #00a35a); color: #fff; }
+.sena-logo { width: 48px; height: 48px; }
+.sena-navbar .nav-link { color: #fff; opacity: 0.95; }
+.sena-navbar .nav-link:hover { color: #fff; opacity: 1; text-decoration: underline; }
+
+/* Título más llamativo en negro */
+.sena-title {
+  color: var(--sena-dark) !important;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+/* Tarjetas informativas */
+.info-tile { background: #fff; border: 1px solid #e9ecef; border-radius: .5rem; padding: 1rem; }
+
+/* Tabla estilizada */
+.sena-table thead th { background: #f0f3f7; color: #333; font-weight: 600; }
+.sena-table tbody tr:hover { background: rgba(0,0,0,.02); }
+
+/* Footer */
+.sena-footer { background: #0f5132; }
+.footer-title { font-weight: 700; }
+.footer-sub { font-weight: 600; }
+.footer-links a { color: #dfe9e3; text-decoration: none; }
+.footer-links a:hover { color: #ffffff; text-decoration: underline; }
+
+/* Badges institucionales */
+.sena-badge { background: rgba(255,255,255,.2); color: #fff; }
+
+/* Hero logo */
+.hero-logo { max-width: 320px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.2)); }
+

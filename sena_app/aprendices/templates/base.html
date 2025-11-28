@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}{% endblock %}</title>
+  {% load static %}
+  {% load bootstrap5 %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <!-- Header institucional -->
+  <header class="sena-header shadow-sm">
+    <div class="container d-flex align-items-center py-2 py-md-3">
+      <a href="{% url 'inicio' %}" class="d-flex align-items-center text-decoration-none me-3">
+        <img src="{% static 'img/sena-logo.png' %}" alt="Logo SENA" class="sena-logo me-2">
+      </a>
+      <div class="flex-grow-1">
+        <h6 class="mb-0 fw-semibold text-uppercase text-white small tracking-wide">SENA APP - Centro Minero</h6>
+        <p class="mb-0 text-white-50 small">Formación para el trabajo y el desarrollo humano</p>
+      </div>
+      <div class="d-none d-lg-block">
+        <span class="badge bg-white text-dark shadow-sm">Versión Beta</span>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg sena-navbar">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mainNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'lista_aprendices' %}">Aprendices</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'aprendiz_create' %}">Nuevo</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Panel Administrativo</a></li>
+          </ul>
+          <form class="d-flex sena-search" role="search" action="{% url 'lista_aprendices' %}">
+            <label for="q" class="visually-hidden">Buscar aprendices</label>
+            <input id="q" class="form-control form-control-sm me-2" type="search" placeholder="Buscar" name="q">
+            <button class="btn btn-sm btn-outline-light" type="submit"><i class="bi bi-search"></i> Buscar</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow-1 pb-5">
+    <div class="container py-4">
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Footer institucional -->
+  <footer class="sena-footer mt-auto text-white pt-4 pb-3">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-md-4">
+          <h5 class="footer-title">Servicio Nacional de Aprendizaje - SENA</h5>
+          <p class="small mb-2">"Formación profesional integral para la inclusión social y la productividad".</p>
+          <p class="small mb-0">Centro Minero - Sogamoso<br>Cra. 9 #14-109, Sogamoso, Boyacá - Colombia</p>
+        </div>
+        <div class="col-6 col-md-2">
+          <h6 class="footer-sub">Enlaces</h6>
+          <ul class="list-unstyled small footer-links">
+            <li><a href="https://www.sena.edu.co" target="_blank" rel="noopener">Portal SENA</a></li>
+            <li><a href="https://oferta.senasofiaplus.edu.co" target="_blank" rel="noopener">Sofia Plus</a></li>
+            <li><a href="https://www.instagram.com/senacomunica/" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <h6 class="footer-sub">Contacto</h6>
+            <ul class="list-unstyled small footer-links">
+              <li>Email: andres_fgonzalez28@soy.sena.edu.co</li>
+              <li>Tel: (57) 310 584 4207</li>
+              <li>WhatsApp: +57 310 584 4207</li>
+            </ul>
+        </div>
+        <div class="col-12 col-md-3">
+          <h6 class="footer-sub">Nuestra misión</h6>
+          <p class="small mb-2">Contribuir al desarrollo social y económico del país mediante la formación profesional integral.</p>
+          <div class="d-flex gap-2">
+            <span class="badge sena-badge">Calidad</span>
+            <span class="badge sena-badge">Innovación</span>
+            <span class="badge sena-badge">Análisis y Desarrollo de Sistemas</span>
+          </div>
+        </div>
+      </div>
+      <hr class="border-top border-light opacity-25 mt-4 mb-3" />
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small">
+        <div>&copy; {% now 'Y' %} SENA - Centro Minero Sogamoso. Todos los derechos reservados.</div>
+        <div class="mt-2 mt-md-0">Desarrollado para prácticas académicas en DJANGO.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

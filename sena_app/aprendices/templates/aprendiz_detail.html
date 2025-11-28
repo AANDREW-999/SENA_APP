@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Detalle Aprendiz{% endblock %}
+{% block content %}
+<h2>Detalle Aprendiz</h2>
+<div class="card">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Documento</dt><dd class="col-sm-9">{{ object.documento_identidad }}</dd>
+      <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">{{ object.nombre }}</dd>
+      <dt class="col-sm-3">Apellido</dt><dd class="col-sm-9">{{ object.apellido }}</dd>
+      <dt class="col-sm-3">Teléfono</dt><dd class="col-sm-9">{{ object.telefono }}</dd>
+      <dt class="col-sm-3">Correo</dt><dd class="col-sm-9">{{ object.correo }}</dd>
+      <dt class="col-sm-3">Fecha Nacimiento</dt><dd class="col-sm-9">{{ object.fecha_nacimiento }}</dd>
+      <dt class="col-sm-3">Ciudad</dt><dd class="col-sm-9">{{ object.ciudad }}</dd>
+      <dt class="col-sm-3">Programa</dt><dd class="col-sm-9">{{ object.programa }}</dd>
+    </dl>
+    <a href="{% url 'aprendiz_update' object.id %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'aprendiz_delete' object.id %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'lista_aprendices' %}" class="btn btn-secondary">Volver</a>
+  </div>
+</div>
+{% endblock %}
+

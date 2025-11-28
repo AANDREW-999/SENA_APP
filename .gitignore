@@ -1,0 +1,23 @@
+# Django / Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+venv/
+env/
+*.log
+*.pot
+*.pyc
+# IDE
+.vscode/
+.idea/
+
+# Migrations cache
+*/migrations/__pycache__/
+# Coverage / tests
+.coverage
+htmlcov/
+# Node / build (si usaras)
+node_modules/
+
+.hintrc
