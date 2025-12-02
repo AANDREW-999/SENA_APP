@@ -10,7 +10,15 @@
       <h1 class="h3 fw-bold mb-0">Lista de Aprendices</h1>
       <p class="text-muted small mb-0">Administración de registros activos</p>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge text-bg-success">
+        Aprendices:
+        {% if is_paginated %}
+          {{ page_obj.paginator.count }}
+        {% else %}
+          {{ mis_aprendices|length }}
+        {% endif %}
+      </span>
       <a href="{% url 'aprendiz_create' %}" class="btn btn-primary shadow-sm">
         <span class="fw-semibold">+ Nuevo Aprendiz</span>
       </a>
