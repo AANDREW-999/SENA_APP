@@ -8,11 +8,17 @@
 {% block content %}
 <div class="row align-items-center mb-5">
   <div class="col-12 col-lg-6">
-    <h1 class="display-6 fw-bold sena-title">Gestión Académica de Aprendices</h1>
-    <p class="lead text-secondary">Herramienta interna para administrar información de aprendices del Centro Minero de Sogamoso.</p>
-    <div class="d-flex gap-3 flex-wrap mt-3">
+    <h1 class="display-6 fw-bold sena-title">Gestión Académica</h1>
+    <p class="lead text-secondary">Herramienta interna para administrar información del Centro Minero de Sogamoso.</p>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
       <a href="{% url 'lista_aprendices' %}" class="btn btn-primary btn-lg shadow-sm">Ver Aprendices</a>
-      <a href="{% url 'aprendiz_create' %}" class="btn btn-outline-primary btn-lg">Registrar Nuevo</a>
+      <a href="{% url 'aprendiz_create' %}" class="btn btn-outline-primary btn-lg">Registrar Aprendiz</a>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <a href="{% url 'lista_instructores' %}" class="btn btn-primary btn-lg shadow-sm">Ver Instructores</a>
+      <a href="{% url 'instructor_create' %}" class="btn btn-outline-primary btn-lg">Registrar Instructor</a>
     </div>
   </div>
   <div class="col-12 col-lg-6 text-center mt-4 mt-lg-0">
@@ -79,6 +85,32 @@
           <td>{{ x.apellido }}</td>
           <td>{{ x.ciudad }}</td>
           <td>{{ x.programa }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center text-muted">Aún no hay registros.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="mt-5">
+  <h4 class="fw-semibold mb-3">Instructores recientes</h4>
+  <div class="table-responsive shadow-sm rounded overflow-hidden">
+    <table class="table table-hover align-middle mb-0 sena-table">
+      <thead>
+        <tr>
+          <th>Documento</th><th>Nombre</th><th>Apellido</th><th>Especialidad</th><th>Nivel</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in instructores_recientes %}
+        <tr>
+          <td>{{ i.documento_identidad }}</td>
+          <td>{{ i.nombre }}</td>
+          <td>{{ i.apellido }}</td>
+          <td>{{ i.especialidad }}</td>
+          <td>{{ i.get_nivel_educativo_display }}</td>
         </tr>
         {% empty %}
         <tr><td colspan="5" class="text-center text-muted">Aún no hay registros.</td></tr>

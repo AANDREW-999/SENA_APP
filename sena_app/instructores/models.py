@@ -25,7 +25,7 @@ class Instructor(models.Model):
     correo = models.EmailField(unique=True)
     fecha_nacimiento = models.DateField()
     ciudad = models.CharField(max_length=100, null=True)
-    direccion = models.CharField(null=True)
+    direccion = models.TextField(null=True)
     nivel_educativo = models.CharField(max_length=3, choices=NIVEL_EDUCATIVO_CHOICES, default='MAE')
     especialidad = models.CharField(max_length=100)
     anos_experiencia = models.PositiveIntegerField()

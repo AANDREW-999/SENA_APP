@@ -16,8 +16,9 @@
       <div class="small text-muted">Documento: {{ object.documento_identidad }}</div>
     </div>
     <div class="ms-auto d-flex flex-wrap gap-2">
-      <span class="badge sena-badge"><i class="bi bi-mortarboard"></i> {{ object.programa }}</span>
-      <span class="badge sena-badge"><i class="bi bi-geo-alt"></i> {{ object.ciudad }}</span>
+      <a href="{% url 'aprendiz_update' object.id %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
+      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteAprendizModal"><i class="bi bi-trash"></i> Eliminar</button>
+      <a href="{% url 'lista_aprendices' %}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver</a>
     </div>
   </div>
   <div class="card-body">
@@ -47,11 +48,25 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="d-flex flex-wrap gap-2 mt-4">
-      <a href="{% url 'aprendiz_update' object.id %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
-      <a href="{% url 'aprendiz_delete' object.id %}" class="btn btn-danger"><i class="bi bi-trash"></i> Eliminar</a>
-      <a href="{% url 'lista_aprendices' %}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver</a>
+<!-- Modal eliminar aprendiz -->
+<div class="modal fade" id="confirmDeleteAprendizModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-trash text-danger"></i> Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">¿Seguro que deseas eliminar este aprendiz? Esta acción no se puede deshacer.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{% url 'aprendiz_delete' object.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

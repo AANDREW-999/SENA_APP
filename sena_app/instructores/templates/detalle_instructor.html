@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Detalle Instructor | SENA APP{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow border-0 mb-4 animate-fade">
+      <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-semibold"><i class="bi bi-person-badge me-2"></i>Perfil del Instructor</h5>
+        <div class="d-flex gap-2">
+          <a href="{% url 'instructor_update' instructor.id %}" class="btn btn-sm btn-outline-light"><i class="bi bi-pencil-square"></i> Editar</a>
+          <a href="{% url 'instructor_delete' instructor.id %}" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"><i class="bi bi-trash"></i> Eliminar</a>
+          <a href="{% url 'lista_instructores' %}" class="btn btn-sm btn-outline-light"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
+      </div>
+      <div class="card-body bg-light">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Identificación</h6>
+              <p class="mb-1"><span class="fw-semibold">Documento:</span> {{ instructor.documento_identidad }}</p>
+              <p class="mb-1"><span class="fw-semibold">Tipo:</span> {{ instructor.get_tipo_documento_display }}</p>
+              <p class="mb-1"><span class="fw-semibold">Fecha Nacimiento:</span> {{ instructor.fecha_nacimiento }}</p>
+              <p class="mb-0"><span class="fw-semibold">Ciudad:</span> {{ instructor.ciudad|default:'-' }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Contacto</h6>
+              <p class="mb-1"><span class="fw-semibold">Nombre:</span> {{ instructor.nombre }} {{ instructor.apellido }}</p>
+              <p class="mb-1"><span class="fw-semibold">Teléfono:</span> {{ instructor.telefono|default:'-' }}</p>
+              <p class="mb-1"><span class="fw-semibold">Correo:</span> <span class="badge text-bg-light text-dark">{{ instructor.correo }}</span></p>
+              <p class="mb-0"><span class="fw-semibold">Dirección:</span> {{ instructor.direccion|default:'-' }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Formación</h6>
+              <p class="mb-1"><span class="fw-semibold">Nivel Educativo:</span> {{ instructor.get_nivel_educativo_display }}</p>
+              <p class="mb-1"><span class="fw-semibold">Especialidad:</span> <span class="badge text-bg-warning text-dark fw-semibold">{{ instructor.especialidad }}</span></p>
+              <p class="mb-0"><span class="fw-semibold">Años Experiencia:</span> {{ instructor.anos_experiencia }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Estado y Vinculación</h6>
+              <p class="mb-1"><span class="fw-semibold">Estado:</span> {% if instructor.activo %}<span class="badge text-bg-success">Activo</span>{% else %}<span class="badge text-bg-secondary">Inactivo</span>{% endif %}</p>
+              <p class="mb-1"><span class="fw-semibold">Fecha Vinculación:</span> {{ instructor.fecha_vinculacion }}</p>
+              <p class="mb-0"><span class="fw-semibold">Registro:</span> {{ instructor.fecha_registro }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarModalLabel">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar a este instructor? Esta acción no se puede deshacer.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{% url 'instructor_delete' instructor.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
