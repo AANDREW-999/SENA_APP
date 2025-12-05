@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Detalle Curso | SENA APP{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow border-0 mb-4 animate-fade">
+      <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-semibold"><i class="bi bi-journal-medical me-2"></i>Detalle del Curso</h5>
+        <div class="d-flex gap-2">
+          <a href="{% url 'editar_curso' curso.id %}" class="btn btn-sm btn-outline-light"><i class="bi bi-pencil-square"></i> Editar</a>
+          <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarCursoModal"><i class="bi bi-trash"></i> Eliminar</a>
+          <a href="{% url 'lista_cursos' %}" class="btn btn-sm btn-outline-light"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
+      </div>
+      <div class="card-body bg-light">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Identificación</h6>
+              <p class="mb-1"><span class="fw-semibold">Código:</span> {{ curso.codigo }}</p>
+              <p class="mb-1"><span class="fw-semibold">Nombre:</span> {{ curso.nombre }}</p>
+              <p class="mb-0"><span class="fw-semibold">Programa:</span> {{ curso.programa }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Coordinación</h6>
+              <p class="mb-1"><span class="fw-semibold">Instructor Coordinador:</span> {{ curso.instructor_coordinador }}</p>
+              <p class="mb-0"><span class="fw-semibold">Estado:</span> {{ curso.get_estado_display|default:curso.estado }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Calendario</h6>
+              <p class="mb-1"><span class="fw-semibold">Fecha de Inicio:</span> {{ curso.fecha_inicio|date:'Y-m-d' }}</p>
+              <p class="mb-0"><span class="fw-semibold">Fecha de Finalización:</span> {{ curso.fecha_fin|date:'Y-m-d' }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Logística</h6>
+              <p class="mb-1"><span class="fw-semibold">Horario:</span> {{ curso.horario }}</p>
+              <p class="mb-1"><span class="fw-semibold">Aula/Ambiente:</span> {{ curso.aula }}</p>
+              <p class="mb-0"><span class="fw-semibold">Cupos Máximos:</span> {{ curso.cupos_maximos }}</p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="p-3 rounded bg-white shadow-sm h-100">
+              <h6 class="text-uppercase text-muted small mb-2">Observaciones</h6>
+              <p class="mb-0">{{ curso.observaciones|default:'Sin observaciones' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="eliminarCursoModal" tabindex="-1" aria-labelledby="eliminarCursoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarCursoModalLabel">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar este curso? Esta acción no se puede deshacer.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{% url 'eliminar_curso' curso.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

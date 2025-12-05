@@ -10,6 +10,12 @@ class Aprendiz(models.Model):
     ciudad = models.CharField(max_length=100)
     programa = models.CharField(max_length=150)
 
+    class Meta:
+        verbose_name = "Aprendiz"
+        verbose_name_plural = "Aprendices"
+        ordering = ['apellido', 'nombre']
+
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.documento_identidad}"
+
 # Create your models here.

@@ -33,10 +33,16 @@ class Instructor(models.Model):
     fecha_vinculacion = models.DateField()
     fecha_registro = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Instructor"
+        verbose_name_plural = "Instructores"
+        ordering = ['apellido', 'nombre']
+
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.especialidad}"
 
     def nombre_completo(self):
         return f"{self.nombre} {self.apellido}"
+
 
 # Create your models here.

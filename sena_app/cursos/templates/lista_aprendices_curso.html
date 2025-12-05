@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Aprendices por Curso - SENA APP{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h3 fw-bold mb-0">Aprendices por Curso</h1>
+    <p class="text-muted small mb-0">Listado relacional de aprendices asignados a cursos</p>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <span class="badge text-bg-success">Total: {{ total }}</span>
+    <a href="{% url 'lista_cursos' %}" class="btn btn-outline-dark shadow-sm"><i class="bi bi-arrow-left"></i> Volver a Cursos</a>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0 mb-3">
+  <div class="card-body py-3 px-4 bg-light-subtle">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" for="fProg">Filtrar por Programa</label>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-dark text-white"><i class="bi bi-funnel"></i></span>
+          <input type="text" class="form-control" id="fProg" value="{{ programa_filter }}" placeholder="Código de programa (ej. IA004)" aria-label="Filtrar por código de programa">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" for="fCurso">Filtrar por Curso</label>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-dark text-white"><i class="bi bi-funnel"></i></span>
+          <input type="text" class="form-control" id="fCurso" value="{{ curso_filter }}" placeholder="Código de curso" aria-label="Filtrar por código de curso">
+        </div>
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary btn-sm me-2" id="applyFilters"><i class="bi bi-search"></i> Aplicar</button>
+        <a href="{% url 'lista_aprendices_curso' %}" class="btn btn-secondary btn-sm"><i class="bi bi-x-circle"></i> Limpiar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0 sena-table align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Curso</th>
+            <th>Programa</th>
+            <th>Aprendiz</th>
+            <th>Documento</th>
+            <th>Estado</th>
+            <th>Fecha Inscripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in items %}
+          <tr>
+            <td class="fw-semibold">{{ it.curso.codigo }} - {{ it.curso.nombre }}</td>
+            <td>{{ it.curso.programa.codigo }} - {{ it.curso.programa.nombre }}</td>
+            <td>{{ it.aprendiz.nombre }} {{ it.aprendiz.apellido }}</td>
+            <td>{{ it.aprendiz.documento_identidad }}</td>
+            <td>{{ it.get_estado_display|default:it.estado }}</td>
+            <td>{{ it.fecha_inscripcion|date:'Y-m-d' }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No hay aprendices asignados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'cursos/js/aprendices_curso.js' %}"></script>
+<script>
+  document.getElementById('applyFilters')?.addEventListener('click', function(){
+    const p = document.getElementById('fProg')?.value || '';
+    const c = document.getElementById('fCurso')?.value || '';
+    const base = "{% url 'lista_aprendices_curso' %}";
+    const params = new URLSearchParams();
+    if(p) params.set('programa', p);
+    if(c) params.set('curso', c);
+    const url = params.toString() ? `${base}?${params.toString()}` : base;
+    window.location.href = url;
+  });
+</script>
+{% endblock %}
