@@ -8,6 +8,13 @@
 
   if(!table || !tbody) return;
 
+  // Poblar opciones de filtros (si fueran selects en el futuro) sin duplicados
+  function populateFiltersFromTable(){
+    // Aquí los filtros son inputs; si migran a selects, esta función puede usarse
+    // para poblar opciones únicas sin duplicados
+  }
+  populateFiltersFromTable();
+
   function getCellText(tr, idx){
     const cell = tr.children[idx];
     return (cell ? cell.textContent : '').trim().toLowerCase();
@@ -26,10 +33,7 @@
       tr.style.display = show ? '' : 'none';
       if(show) visibles++;
     });
-    if(totalBadge){
-      const base = totalBadge.textContent.replace(/Total:\s*\d+/i,'').trim();
-      totalBadge.textContent = `Total: ${visibles}`;
-    }
+    if(totalBadge){ totalBadge.textContent = `Total: ${visibles}`; }
   }
 
   [fProg, fCurso].forEach(el => {
@@ -37,13 +41,14 @@
     el && el.addEventListener('change', applyClientFilter);
   });
 
-  // Ordenamiento por columna al hacer click en thead th
+  // Ordenamiento por columna al hacer click en thead
   const sortState = {};
   const ths = table.querySelectorAll('thead th');
   function sortByCol(colIdx){
     const dir = sortState[colIdx] === 'asc' ? 'desc' : 'asc';
     sortState[colIdx] = dir;
-    const sorted = rows.slice().sort((a,b)=>{
+    const visibleRows = rows.filter(r => r.style.display !== 'none');
+    visibleRows.sort((a,b)=>{
       const aTxt = getCellText(a, colIdx);
       const bTxt = getCellText(b, colIdx);
       const aNum = Number(aTxt);
@@ -55,11 +60,25 @@
       if(aTxt > bTxt) return dir === 'asc' ? 1 : -1;
       return 0;
     });
-    sorted.forEach(tr => tbody.appendChild(tr));
+    visibleRows.forEach(tr => tbody.appendChild(tr));
   }
   ths.forEach((th, idx)=>{
-    th.addEventListener('click', function(){
-      sortByCol(idx);
-    });
+    // Evitar sort en columna de acciones (última)
+    const isActions = idx === ths.length - 1;
+    if(isActions) return;
+    th.style.cursor = 'pointer';
+    th.title = 'Ordenar';
+    th.addEventListener('click', ()=> sortByCol(idx));
   });
+
+  // Botón de reset si existe
+  const resetBtn = document.getElementById('refreshAprendicesCurso');
+  resetBtn && resetBtn.addEventListener('click', () => {
+    if(fProg) fProg.value='';
+    if(fCurso) fCurso.value='';
+    applyClientFilter();
+  });
+
+  // Inicial
+  applyClientFilter();
 })();

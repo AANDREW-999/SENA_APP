@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Instructor por Curso{% endblock %}
+{% block content %}
+<div class="card fade-in-up">
+  <div class="card-body">
+    <div class="alert alert-danger mb-3" role="alert">
+      ¿Estás seguro de que deseas eliminar el registro del instructor <strong>{{ obj.instructor }}</strong> en el curso <strong>{{ obj.curso }}</strong>?
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Sí, eliminar</button>
+      <a href="{% url 'lista_instructores_curso' %}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

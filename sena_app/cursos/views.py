@@ -27,6 +27,29 @@ class CursoForm(forms.ModelForm):
             'observaciones': forms.Textarea(attrs={'class':'form-control','rows':3}),
         }
 
+# Formularios para relaciones
+class AprendizCursoForm(forms.ModelForm):
+    class Meta:
+        model = AprendizCurso
+        fields = ['curso','aprendiz','estado','nota_final','observaciones']
+        widgets = {
+            'curso': forms.Select(attrs={'class':'form-select'}),
+            'aprendiz': forms.Select(attrs={'class':'form-select'}),
+            'estado': forms.Select(attrs={'class':'form-select'}),
+            'nota_final': forms.NumberInput(attrs={'class':'form-control','step':'0.1','min':'0','max':'5'}),
+            'observaciones': forms.Textarea(attrs={'class':'form-control','rows':3}),
+        }
+
+class InstructorCursoForm(forms.ModelForm):
+    class Meta:
+        model = InstructorCurso
+        fields = ['curso','instructor','rol']
+        widgets = {
+            'curso': forms.Select(attrs={'class':'form-select'}),
+            'instructor': forms.Select(attrs={'class':'form-select'}),
+            'rol': forms.TextInput(attrs={'class':'form-control','placeholder':'Rol en el curso'}),
+        }
+
 
 # Lista
 def lista_cursos(request):
@@ -144,4 +167,90 @@ def lista_instructores_curso(request):
         'curso_filter': curso_code,
     }
     return render(request, 'lista_instructores_curso.html', context)
+
+
+# CRUD AprendizCurso
+
+def crear_aprendiz_curso(request):
+    if request.method == 'POST':
+        form = AprendizCursoForm(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            messages.success(request, 'Aprendiz asignado al curso correctamente.')
+            return redirect('detalle_aprendiz_curso', pk=obj.id)
+        messages.error(request, 'Corrige los errores del formulario.')
+    else:
+        form = AprendizCursoForm()
+    return render(request, 'aprendiz_curso_form.html', {'form': form})
+
+
+def editar_aprendiz_curso(request, pk):
+    obj = get_object_or_404(AprendizCurso, pk=pk)
+    if request.method == 'POST':
+        form = AprendizCursoForm(request.POST, instance=obj)
+        if form.is_valid():
+            obj = form.save()
+            messages.success(request, 'Registro actualizado correctamente.')
+            return redirect('detalle_aprendiz_curso', pk=obj.id)
+        messages.error(request, 'Corrige los errores del formulario.')
+    else:
+        form = AprendizCursoForm(instance=obj)
+    return render(request, 'aprendiz_curso_form.html', {'form': form, 'obj': obj})
+
+
+def eliminar_aprendiz_curso(request, pk):
+    obj = get_object_or_404(AprendizCurso, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, 'Registro eliminado correctamente.')
+        return redirect('lista_aprendices_curso')
+    return render(request, 'aprendiz_curso_confirm_delete.html', {'obj': obj})
+
+
+def detalle_aprendiz_curso(request, pk):
+    obj = get_object_or_404(AprendizCurso, pk=pk)
+    return render(request, 'aprendiz_curso_detail.html', {'obj': obj})
+
+
+# CRUD InstructorCurso
+
+def crear_instructor_curso(request):
+    if request.method == 'POST':
+        form = InstructorCursoForm(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            messages.success(request, 'Instructor asignado al curso correctamente.')
+            return redirect('detalle_instructor_curso', pk=obj.id)
+        messages.error(request, 'Corrige los errores del formulario.')
+    else:
+        form = InstructorCursoForm()
+    return render(request, 'instructor_curso_form.html', {'form': form})
+
+
+def editar_instructor_curso(request, pk):
+    obj = get_object_or_404(InstructorCurso, pk=pk)
+    if request.method == 'POST':
+        form = InstructorCursoForm(request.POST, instance=obj)
+        if form.is_valid():
+            obj = form.save()
+            messages.success(request, 'Registro actualizado correctamente.')
+            return redirect('detalle_instructor_curso', pk=obj.id)
+        messages.error(request, 'Corrige los errores del formulario.')
+    else:
+        form = InstructorCursoForm(instance=obj)
+    return render(request, 'instructor_curso_form.html', {'form': form, 'obj': obj})
+
+
+def eliminar_instructor_curso(request, pk):
+    obj = get_object_or_404(InstructorCurso, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, 'Registro eliminado correctamente.')
+        return redirect('lista_instructores_curso')
+    return render(request, 'instructor_curso_confirm_delete.html', {'obj': obj})
+
+
+def detalle_instructor_curso(request, pk):
+    obj = get_object_or_404(InstructorCurso, pk=pk)
+    return render(request, 'instructor_curso_detail.html', {'obj': obj})
 # Create your views here.

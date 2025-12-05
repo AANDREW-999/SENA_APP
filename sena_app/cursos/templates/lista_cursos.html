@@ -143,7 +143,7 @@
   document.getElementById('goAC')?.addEventListener('click', function(){
     const p = document.getElementById('fProgAC')?.value || '';
     const c = document.getElementById('fCursoAC')?.value || '';
-    const base = '{% url 'lista_aprendices_curso' %}';
+    const base = '{% url 'lista_aprendices_curso'%}';
     const params = new URLSearchParams();
     if(p) params.set('programa', p);
     if(c) params.set('curso', c);

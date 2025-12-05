@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Detalle Aprendiz por Curso{% endblock %}
+{% block content %}
+<div class="card shadow border-0 mb-4">
+  <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-person-lines-fill me-2"></i>Detalle Aprendiz en Curso</h5>
+    <div class="d-flex gap-2">
+      <a href="{% url 'editar_aprendiz_curso' obj.id %}" class="btn btn-sm btn-outline-light"><i class="bi bi-pencil-square"></i> Editar</a>
+      <a href="{% url 'eliminar_aprendiz_curso' obj.id %}" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Eliminar</a>
+      <a href="{% url 'lista_aprendices_curso' %}" class="btn btn-sm btn-outline-light"><i class="bi bi-arrow-left"></i> Volver</a>
+    </div>
+  </div>
+  <div class="card-body bg-light">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-3 rounded bg-white shadow-sm h-100">
+          <h6 class="text-uppercase text-muted small mb-2">Curso</h6>
+          <p class="mb-1"><span class="fw-semibold">Código:</span> {{ obj.curso.codigo }}</p>
+          <p class="mb-1"><span class="fw-semibold">Nombre:</span> {{ obj.curso.nombre }}</p>
+          <p class="mb-1"><span class="fw-semibold">Programa:</span> {{ obj.curso.programa }}</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 rounded bg-white shadow-sm h-100">
+          <h6 class="text-uppercase text-muted small mb-2">Aprendiz</h6>
+          <p class="mb-1"><span class="fw-semibold">Nombre:</span> {{ obj.aprendiz.nombre }} {{ obj.aprendiz.apellido }}</p>
+          <p class="mb-1"><span class="fw-semibold">Documento:</span> {{ obj.aprendiz.documento_identidad }}</p>
+          <p class="mb-1"><span class="fw-semibold">Estado:</span> {{ obj.get_estado_display }}</p>
+          <p class="mb-1"><span class="fw-semibold">Fecha Inscripción:</span> {{ obj.fecha_inscripcion|date:'Y-m-d' }}</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="p-3 rounded bg-white shadow-sm h-100">
+          <h6 class="text-uppercase text-muted small mb-2">Nota y Observaciones</h6>
+          <p class="mb-1"><span class="fw-semibold">Nota final:</span> {{ obj.nota_final|default:'-' }}</p>
+          <p class="mb-0"><span class="fw-semibold">Observaciones:</span> {{ obj.observaciones|default:'-' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
